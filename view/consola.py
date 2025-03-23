@@ -160,7 +160,7 @@ class Consola:
             fig, ax = plt.subplots(figsize=(10, 6))
             ax.pie([ingresos, abs(gastos)], labels=["Ingresos", "Gastos"], autopct='%1.1f%%', startangle=90)
 
-            ax.axis('equal')  # Para asegurar que sea un gráfico circular
+            ax.axis('equal')
             plt.title(f"Ingresos y Gastos de {fecha_inicial} a {fecha_final}")
             plt.show()
         except Exception as e:
