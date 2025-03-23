@@ -14,7 +14,7 @@ class Consola:
         print("3. Salir")
 
     def mostrar_menu_2(self):
-        print("\n--- Menú de Usuario ---")
+        print("\n--- Menú del Usuario ---")
         print("1. Realizar transacción")
         print("2. Actualizar transacción")
         print("3. Ver transacciones")
@@ -195,7 +195,7 @@ class Consola:
                 elif opcion == "2":
                     self.iniciar_sesion()
                 elif opcion == "3":
-                    print("Gracias por usar la aplicación.")
+                    print("Hasta luego!")
                     break
                 else:
                     print("Opción no válida. Intenta de nuevo.")
@@ -216,7 +216,7 @@ class Consola:
                 elif opcion == "6":
                     self.cerrar_sesion()
                 elif opcion == "7":
-                    print("Gracias por usar la aplicación.")
+                    print("Hasta luego!")
                     break
                 else:
                     print("Opción no válida. Intenta de nuevo.")
