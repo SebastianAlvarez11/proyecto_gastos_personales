@@ -195,7 +195,7 @@ class Consola:
                 elif opcion == "2":
                     self.iniciar_sesion()
                 elif opcion == "3":
-                    print("Hasta luego!")
+                    print("Gracias por usar la aplicacion. Hasta luego!")
                     break
                 else:
                     print("Opción no válida. Intenta de nuevo.")
@@ -216,7 +216,7 @@ class Consola:
                 elif opcion == "6":
                     self.cerrar_sesion()
                 elif opcion == "7":
-                    print("Hasta luego!")
+                    print("Gracias por usar la aplicacion. Hasta luego!")
                     break
                 else:
                     print("Opción no válida. Intenta de nuevo.")

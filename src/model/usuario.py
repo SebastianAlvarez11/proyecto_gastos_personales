@@ -81,30 +81,23 @@ class Usuario:
     
 
     def graficar_transacciones(self, fecha_inicial, fecha_final):
-        # Filtrar las transacciones
         transacciones_filtradas = self.visualizar_transacciones(fecha_inicial, fecha_final)
         
-        # Crear un DataFrame para agrupar los datos
         data = {'Categoria': [], 'Cantidad de dinero': []}
         
         for trans in transacciones_filtradas:
-            # Determinar el tipo: Ingreso si la cantidad es positiva, Gasto si es negativa
             tipo = 'Ingreso' if trans.cantidad_dinero > 0 else 'Gasto'
             data['Categoria'].append(f"{trans.categoria} - {tipo}")
             data['Cantidad de dinero'].append(trans.cantidad_dinero)
 
         df = pd.DataFrame(data)
 
-        # Agrupar por categoría y sumar los montos
         df_agrupado = df.groupby(['Categoria']).sum().reset_index()
 
-        # Graficar
         fig, ax = plt.subplots(figsize=(10, 6))
 
-        # Graficar las transacciones agrupadas
         ax.bar(df_agrupado['Categoria'], df_agrupado['Cantidad de dinero'], color=['green' if x > 0 else 'red' for x in df_agrupado['Cantidad de dinero']])
 
-        # Título y etiquetas
         ax.set_title(f'Transacciones de {self.nombre} entre {fecha_inicial} y {fecha_final}', fontsize=14)
         ax.set_xlabel('Categoría', fontsize=12)
         ax.set_ylabel('Cantidad de dinero ($)', fontsize=12)
