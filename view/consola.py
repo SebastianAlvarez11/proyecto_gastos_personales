@@ -33,7 +33,7 @@ class Consola:
         
         usuario: Usuario = Usuario(nombre, tipo_documento, numero_documento, contrasena, correo, fecha_nacimiento)
         self.aplicacion.crear_cuenta(usuario)
-    print(f"La cuenta se ha creado exitosamente!\nInicie sesión para ver el menú")
+        print(f"La cuenta se ha creado exitosamente!\nInicie sesión para ver el menú")
     
     def iniciar_sesion(self):
         nombre = input("Nombre de usuario: ")
