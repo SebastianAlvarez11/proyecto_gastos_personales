@@ -79,7 +79,6 @@ class Usuario:
         ]
         return transacciones_filtradas
     
-
     def graficar_transacciones(self, fecha_inicial, fecha_final):
         transacciones_filtradas = self.visualizar_transacciones(fecha_inicial, fecha_final)
         
@@ -105,8 +104,6 @@ class Usuario:
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
-
-
 
     def validar_tipo_documento(self, tipo_documento):
         if any(char.isdigit() for char in tipo_documento):

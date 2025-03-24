@@ -5,7 +5,7 @@ from src.model.exception import (ErrorInicioSesionUsuarioNoExistente, ErrorInici
 
 class Aplicacion:
 
-    MAX_INTENTOS = 3 #CAMBIAR A 3 INTENTOS
+    MAX_INTENTOS = 3
     TIEMPO_BLOQUEO = 300
     def __init__(self):
         self.usuarios: list[Usuario] = []
@@ -73,7 +73,6 @@ class Aplicacion:
 
         if self.usuario_logueado.nombre in self.tiempos_bloqueo:
             del self.tiempos_bloqueo[self.usuario_logueado.nombre]
-
 
     def validar_usuario_logueado(self):
         return self.usuario_logueado is not None

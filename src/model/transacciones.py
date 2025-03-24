@@ -9,7 +9,6 @@ class Transacciones:
         self.fecha = fecha
         self.hora = hora
         
-
     def validar_fecha(self):
         if isinstance(self.fecha, datetime):
             return True       
