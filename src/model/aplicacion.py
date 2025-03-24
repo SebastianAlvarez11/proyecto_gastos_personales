@@ -17,6 +17,7 @@ class Aplicacion:
         usuario.validar_tipo_documento(usuario.tipo_documento)
         usuario.validar_fecha_nacimiento(usuario.fecha_nacimiento)
         usuario.validar_correo(usuario.correo)
+        usuario.validar_contrasena(usuario.contrasena)
         for usuario_existe in self.usuarios:
             if usuario_existe.correo == usuario.correo:
                 raise ErrorUsuarioExistente()

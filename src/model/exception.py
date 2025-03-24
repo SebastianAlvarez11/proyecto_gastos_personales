@@ -112,7 +112,7 @@ class ErrorCorreoNoValido(Exception):
 
 class ErrorContrasenaNoSegura(Exception):
     def __init__(self):
-        super().__init__(f"Error, la contraseña debe contener al menos un número, una letra y una letra especial.")
+        super().__init__(f"Error, la contraseña debe contener al menos un número, una letra mayúscula y una letra especial.")
 
 class ErrorContrasenaIntentosFallidos(Exception):
     def __init__(self):

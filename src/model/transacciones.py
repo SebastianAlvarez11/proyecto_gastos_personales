@@ -6,7 +6,7 @@ class Transacciones:
         self.id = id
         self.cantidad_dinero = cantidad_dinero
         self.categoria = categoria
-        self.fecha = fecha       #datetime.strptime(fecha, "%d/%m/%Y")
+        self.fecha = fecha
         self.hora = hora
         
 
@@ -19,12 +19,7 @@ class Transacciones:
             raise ErrorFechaTransaccion()
         if fecha.year > 2026 or fecha.year < 1910:
             raise ErrorFechaTransaccion()
-        #if fecha.day > 31 or fecha.day < 0:
-        #    raise ErrorFechaTransaccion()
-        #if fecha.month > 12 or fecha.month < 0:
-        #    raise ErrorFechaTransaccion()
         
-
     def validar_hora(self):
         if isinstance(self.hora, datetime):
             return True
@@ -48,15 +43,3 @@ class Transacciones:
         if fecha_inicial <= self.fecha <= fecha_final:
             return True
         return False
-
-    def agrupar_categorias(self, categoria):
-        pass
-
-    def graficar_transacciones(self):
-        pass
-
-    def __eq__(self, nueva_transaccion):
-        return (self.cantidad_dinero == nueva_transaccion.cantidad_dinero and
-                self.categoria == nueva_transaccion.categoria and
-                self.fecha == nueva_transaccion.fecha and
-                self.hora == nueva_transaccion.hora)

@@ -27,6 +27,7 @@ class Consola:
         nombre = input("Nombre del usuario: ")
         tipo_documento = input("Tipo de documento: ")
         numero_documento = int(input("Número de documento: "))
+        print("La contraseña debe contener al menos un número, una letra mayúscula y una letra especial.")
         contrasena = input("Contraseña: ")
         correo = input("Correo: ")
         fecha_nacimiento = input("Fecha de nacimiento (dd/mm/yyyy): ")
@@ -171,6 +172,7 @@ class Consola:
             print("No has iniciado sesión.")
             return
         
+        print("La nueva contraseña debe contener al menos un número, una letra mayúscula y una letra especial.")
         nueva_contrasena = input("Introduce la nueva contraseña: ")
         try:
             self.aplicacion.usuario_logueado.validar_contrasena(nueva_contrasena)
