@@ -104,7 +104,7 @@ class ErrorSistemaCaido(Exception):
 
 class ErrorFechaNoValida(Exception):
     def __init__(self):
-        super().__init__(f"Error, la edad es demasiado avanzada.")
+        super().__init__(f"Error, fecha no válida.")
 
 class ErrorCorreoNoValido(Exception):
     def __init__(self):
