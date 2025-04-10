@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
 from src.model.usuario import Usuario
 from src.model.transacciones import Transacciones
-
+from controlador.app_controlador import AppControlador
 
 class Consola:
     def __init__(self, aplicacion):
         self.aplicacion = aplicacion
+        #self.controlador: AppControlador = controlador 
     
     def mostrar_menu_1(self):
         print("\n--- Menú Principal ---")

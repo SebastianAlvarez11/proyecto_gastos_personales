@@ -109,9 +109,11 @@ class Usuario:
         transacciones_filtradas = [
             t for t in self.transacciones if fecha_inicial <= datetime.strptime(t.fecha, "%d/%m/%Y") <= fecha_final
         ]
-        return transacciones_filtradas
+        #return transacciones_filtradas
     
-    def graficar_transacciones(self, fecha_inicial, fecha_final):
+        self.graficar_transacciones(transacciones_filtradas, fecha_inicial, fecha_final)
+    
+    def graficar_transacciones(self, transacciones, fecha_inicial, fecha_final):
         """
         El usuario puede graficar las transacciones dentro de unas fechas específicas.
 
@@ -122,11 +124,11 @@ class Usuario:
         Return:
             Se muestra una gráfica al usuario de sus transacciones en las fecha dadas.
         """
-        transacciones_filtradas = self.visualizar_transacciones(fecha_inicial, fecha_final)
+        #transacciones_filtradas = self.visualizar_transacciones(fecha_inicial, fecha_final)
         
         data = {'Categoria': [], 'Cantidad de dinero': []}
         
-        for trans in transacciones_filtradas:
+        for trans in transacciones:
             tipo = 'Ingreso' if trans.cantidad_dinero > 0 else 'Gasto'
             data['Categoria'].append(f"{trans.categoria} - {tipo}")
             data['Cantidad de dinero'].append(trans.cantidad_dinero)

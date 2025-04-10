@@ -63,6 +63,19 @@ class Aplicacion:
                     raise ErrorInicioSesionContrasenaIncorrecta()
         raise ErrorInicioSesionUsuarioNoExistente()  
     
+    def realizar_transaccion(self, transaccion):
+        """
+        El usuario realiza una transacción.
+
+        Args:
+            transaccion(Transacciones): La transacción del usuario.
+
+        Return:
+            Se agrega la transacción a las transacciones del usuario.
+        """
+        self.validar_usuario_logueado()
+        self.usuario_logueado.realizar_transaccion()
+
     def cambiar_contrasena(self, nueva_contrasena):
         """
         Se cambia la contraseña del usuario.
