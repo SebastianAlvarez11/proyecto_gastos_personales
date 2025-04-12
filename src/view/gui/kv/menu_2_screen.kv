@@ -1,0 +1,67 @@
+<Menu2Screen>
+
+    GridLayout:
+        cols: 1
+        spacing: 20
+        padding: [0, 50, 0, 50]
+
+        Label:
+            id: mensaje_menu_2
+            text: "Menú del usuario"
+            font_size: 24
+            halign: "center"
+            valign: "top"
+            size_hint_y: None
+            text_size: self.width, None  # para que halign funcione
+            height: self.texture_size[1] + 20  # para que ajuste el alto al texto
+
+        Label:
+            text: "Selecciona una opción: "
+            font_size: 20
+            halign: "center"
+            valign: "top"
+            size_hint_y: None
+            text_size: self.width, None  # para que halign funcione
+            height: self.texture_size[1] + 20  # para que ajuste el alto al texto
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 20
+            padding: 70
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            
+            Button:
+                text: "Realizar una transacción"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.realizar_transaccion()
+                
+            Button:
+                text: "Actualizar una transacción"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.actualizar_transaccion()
+                
+            Button:
+                text: "Ver transacciones"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.ver_transacciones()
+                
+            Button:
+                text: "Cambiar contraseña"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.cambiar_contrasena()
+                
+            Button:
+                text: "Cerrar sesión"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.cerrar_sesion()
+                
+            Button:
+                text: "Salir"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.salir()

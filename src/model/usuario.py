@@ -109,7 +109,7 @@ class Usuario:
         transacciones_filtradas = [
             t for t in self.transacciones if fecha_inicial <= datetime.strptime(t.fecha, "%d/%m/%Y") <= fecha_final
         ]
-        #return transacciones_filtradas
+        
     
         self.graficar_transacciones(transacciones_filtradas, fecha_inicial, fecha_final)
     

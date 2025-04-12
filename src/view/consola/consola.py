@@ -1,12 +1,10 @@
-import matplotlib.pyplot as plt
 from src.model.usuario import Usuario
 from src.model.transacciones import Transacciones
-from controlador.app_controlador import AppControlador
+from src.controlador.app_controlador import AppControlador
 
 class Consola:
-    def __init__(self, aplicacion):
-        self.aplicacion = aplicacion
-        #self.controlador: AppControlador = controlador 
+    def __init__(self, controlador: AppControlador):
+        self.controlador: AppControlador = controlador 
     
     def mostrar_menu_1(self):
         print("\n--- Menú Principal ---")
@@ -19,10 +17,9 @@ class Consola:
         print("1. Realizar transacción")
         print("2. Actualizar transacción")
         print("3. Ver transacciones")
-        print("4. Graficar transacciones")
-        print("5. Cambiar contraseña")
-        print("6. Cerrar sesión")
-        print("7. Salir")
+        print("4. Cambiar contraseña")
+        print("5. Cerrar sesión")
+        print("6. Salir")
 
     def crear_cuenta(self):
         nombre = input("Nombre del usuario: ")
@@ -34,46 +31,47 @@ class Consola:
         fecha_nacimiento = input("Fecha de nacimiento (dd/mm/yyyy): ")
         
         usuario: Usuario = Usuario(nombre, tipo_documento, numero_documento, contrasena, correo, fecha_nacimiento)
-        self.aplicacion.crear_cuenta(usuario)
+        self.controlador.crear_cuenta(usuario)
         print(f"La cuenta se ha creado exitosamente!\nInicie sesión para ver el menú")
-    
+
     def iniciar_sesion(self):
         nombre = input("Nombre de usuario: ")
         contrasena = input("Contraseña: ")
-        if self.aplicacion.iniciar_sesion(nombre, contrasena):
+        if self.controlador.iniciar_sesion(nombre, contrasena):
             print(f"Ingreso exitoso. Bienvenido!")
         else:
-            print("Error al iniciar sesión.")
+            print("Error al iniciar sesión. Nombre o contraseña incorrectos.")
 
     def realizar_transaccion(self):
-        if not self.aplicacion.validar_usuario_logueado():
+        if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
-        
+
+
         cantidad_dinero = float(input("Cantidad de dinero (positiva para ingresos, negativa para gastos): "))
         categoria = input("Categoría (por ejemplo, 'Alimentos', 'Transporte'): ")
         fecha = input("Fecha (dd/mm/yyyy): ")
         hora = input("Hora (hh:mm): ")
 
         transaccion = Transacciones(
-            id = len(self.aplicacion.usuario_logueado.transacciones) + 1,
+            id = len(self.controlador.aplicacion.usuario_logueado.transacciones) + 1,
             cantidad_dinero = cantidad_dinero,
             categoria = categoria,
             fecha = fecha,
             hora = hora
         )
 
-        self.aplicacion.usuario_logueado.realizar_transaccion(transaccion)
+        self.controlador.realizar_transaccion(transaccion)
         print(f"Transacción de {cantidad_dinero} registrada en la categoría {categoria}.")
-
+    
 
     def actualizar_transaccion(self):
-        if not self.aplicacion.validar_usuario_logueado():
+        if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
 
         print("--- Transacciones disponibles para actualizar ---")
-        transacciones = self.aplicacion.usuario_logueado.transacciones
+        transacciones = self.controlador.aplicacion.usuario_logueado.transacciones
         if not transacciones:
             print("No tienes transacciones registradas.")
             return
@@ -124,9 +122,8 @@ class Consola:
         except ValueError:
             print("Error: Debes ingresar un número válido.")
 
-    
     def ver_transacciones(self):
-        if not self.aplicacion.validar_usuario_logueado():
+        if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
         
@@ -135,7 +132,7 @@ class Consola:
         print("--- Historial de transacciones: ---")
         
         try:
-            transacciones = self.aplicacion.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
+            transacciones = self.controlador.aplicacion.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
             if transacciones:
                 for transaccion in transacciones:
                     print(f"{transaccion.fecha} - {transaccion.categoria}: ${transaccion.cantidad_dinero}")
@@ -143,56 +140,31 @@ class Consola:
                 print("No hay transacciones en ese rango de fechas.")
         except Exception as e:
             print(f"Error: {str(e)}")
-    
-    def graficar_transacciones(self):
-        if not self.aplicacion.validar_usuario_logueado():
-            print("No has iniciado sesión.")
-            return
-        
-        fecha_inicial = input("Fecha inicial (dd/mm/yyyy): ")
-        fecha_final = input("Fecha final (dd/mm/yyyy): ")
-
-        try:
-            transacciones = self.aplicacion.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
-            ingresos = sum(t.cantidad_dinero for t in transacciones if t.cantidad_dinero > 0)
-            gastos = sum(t.cantidad_dinero for t in transacciones if t.cantidad_dinero < 0)
-
-            categorias = set(t.categoria for t in transacciones)
-
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.pie([ingresos, abs(gastos)], labels=["Ingresos", "Gastos"], autopct='%1.1f%%', startangle=90)
-
-            ax.axis('equal')
-            plt.title(f"Ingresos y Gastos de {fecha_inicial} a {fecha_final}")
-            plt.show()
-        except Exception as e:
-            print(f"Error: {str(e)}")
 
     def cambiar_contrasena(self):
-        if not self.aplicacion.validar_usuario_logueado():
+        if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
         
         print("La nueva contraseña debe contener al menos un número, una letra mayúscula y una letra especial.")
         nueva_contrasena = input("Introduce la nueva contraseña: ")
         try:
-            self.aplicacion.usuario_logueado.validar_contrasena(nueva_contrasena)
-            self.aplicacion.usuario_logueado.contrasena = nueva_contrasena
+            self.controlador.aplicacion.usuario_logueado.validar_contrasena(nueva_contrasena)
+            self.controlador.aplicacion.usuario_logueado.contrasena = nueva_contrasena
             print("Contraseña cambiada exitosamente.")
         except Exception as e:
             print(f"Error: {str(e)}")
 
 
     def cerrar_sesion(self):
-        self.aplicacion.cerrar_sesion()
+        self.controlador.aplicacion.cerrar_sesion()
         print("Sesión cerrada.")
     
     def ejecutar(self):
         while True:
-            if not self.aplicacion.validar_usuario_logueado():
+            if not self.controlador.validar_usuario_logueado():
                 self.mostrar_menu_1()
                 opcion = input("Seleccione una opción: ")
-
                 if opcion == "1":
                     self.crear_cuenta()
                 elif opcion == "2":
@@ -205,7 +177,6 @@ class Consola:
             else:
                 self.mostrar_menu_2()
                 opcion = input("Seleccione una opción: ")
-
                 if opcion == "1":
                     self.realizar_transaccion()
                 elif opcion == "2":
@@ -213,12 +184,10 @@ class Consola:
                 elif opcion == "3":
                     self.ver_transacciones()
                 elif opcion == "4":
-                    self.graficar_transacciones()
-                elif opcion == "5":
                     self.cambiar_contrasena()
-                elif opcion == "6":
+                elif opcion == "5":
                     self.cerrar_sesion()
-                elif opcion == "7":
+                elif opcion == "6":
                     print("Gracias por usar la aplicacion. Hasta luego!")
                     break
                 else:

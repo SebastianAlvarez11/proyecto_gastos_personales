@@ -74,7 +74,7 @@ class Aplicacion:
             Se agrega la transacción a las transacciones del usuario.
         """
         self.validar_usuario_logueado()
-        self.usuario_logueado.realizar_transaccion()
+        self.usuario_logueado.realizar_transaccion(transaccion)
 
     def cambiar_contrasena(self, nueva_contrasena):
         """
@@ -122,7 +122,7 @@ class Aplicacion:
         """
         if not self.validar_usuario_logueado():
             raise ErrorVisualizarSinLoguearse()  
-        self.usuario_logueado.visualizar_transacciones()
+        self.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
 
     def actualizar_transaccion(self, nueva_transaccion):
         """
@@ -136,7 +136,7 @@ class Aplicacion:
         """
         if not self.validar_usuario_logueado():
             raise ErrorTransaccionSinLoguearse()
-        self.usuario_logueado.actualizar_transaccion()
+        self.usuario_logueado.actualizar_transaccion(nueva_transaccion)
 
     def cerrar_sesion(self):
         """

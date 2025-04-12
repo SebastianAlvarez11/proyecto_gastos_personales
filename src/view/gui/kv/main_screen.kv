@@ -1,0 +1,38 @@
+<MainScreen>
+    GridLayout:
+        cols: 1
+        spacing: 20
+        padding: [0, 100, 0, 50]
+        
+        Label:
+            id: mensaje
+            text: "Bienvenido, seleccione una opción: "
+            font_size: 24
+            halign: "center"
+            valign: "top"
+            size_hint_y: None
+            text_size: self.width, None  # para que halign funcione
+            height: self.texture_size[1] + 20  # para que ajuste el alto al texto
+
+        
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 40
+            padding: 30
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            
+            Button:
+                text: "Crear Cuenta"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.abrir_pantalla_crear_cuenta()
+            Button:
+                text: "Iniciar Sesión"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.abrir_pantalla_iniciar_sesion()
+            Button:
+                text: "Salir"
+                size_hint: 0.5, 0.5
+                pos_hint: {"center_x": 0.5}
+                on_press: root.salir()

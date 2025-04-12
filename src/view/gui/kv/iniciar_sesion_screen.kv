@@ -1,0 +1,49 @@
+<IniciarSesionScreen>
+
+    GridLayout:
+        cols: 1
+        spacing: 20
+        padding: [50, 150, 50, 50]
+
+        Label:
+            text: "Inicia sesión"
+            font_size: 24
+            halign: "center"
+            valign: "top"
+            size_hint_y: None
+            text_size: self.width, None  # para que halign funcione
+            height: self.texture_size[1] + 20  # para que ajuste el alto al texto
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 3
+        padding: [300, 300, 300, 300]
+        Label:
+            text: "Nombre: "
+        TextInput:
+            id: nombre_input
+            multiline: False
+        Label:
+            text: "Contraseña: "
+        TextInput:
+            id: contrasena_input    
+            multiline: False
+
+    
+    BoxLayout:
+        orientation: "horizontal"
+        spacing: 50
+        padding: [200, 60, 200, 150]
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        valign: "bottom"
+        
+        Button:
+            text: "Continuar"
+            size_hint: 0.06, 0.09
+            pos_hint: {"center_x": 0.5}
+            on_press: root.iniciar_sesion()
+        Button:
+            text: "Registrarse"
+            size_hint: 0.06, 0.09
+            pos_hint: {"center_x": 0.5}
+            on_press: root.registrarse()
