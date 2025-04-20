@@ -127,10 +127,10 @@ def test_iniciar_sesion_sistema_caido_12():
 def test__crear_cuenta_contrasena_muy_larga_13():
     app: Aplicacion = Aplicacion()
     usuario: Usuario = Usuario("Fred", "cedula", 16564532, "12345678900qwertyuiopasdfghjklñzxcvbnM.", "fredd1995@gmail.com", "09/05/1998")
-    lon = len(app.__usuarios)
+    lon = len(app.obtener_usuarios())
     app.crear_cuenta(usuario)
     app.iniciar_sesion("Fred", "12345678900qwertyuiopasdfghjklñzxcvbnM.")
-    assert len(app.__usuarios) == lon+1
+    assert len(app.obtener_usuarios()) == lon+1
 
 def test_crear_cuenta_fecha_muy_antigua_14():
     app: Aplicacion = Aplicacion()

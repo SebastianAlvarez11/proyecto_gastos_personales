@@ -1,3 +1,5 @@
+#import matplotlib
+#matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import string
@@ -179,6 +181,7 @@ class Usuario:
         
     
         self.graficar_transacciones(transacciones_filtradas, fecha_inicial, fecha_final)
+        return transacciones_filtradas
     
     def graficar_transacciones(self, transacciones, fecha_inicial, fecha_final):
         """

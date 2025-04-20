@@ -5,14 +5,33 @@ from kivy.lang import Builder
 Builder.load_file("src/view/gui/kv/actualizar_transaccion_screen.kv")
 
 class ActualizarTransaccionScreen(Screen):
+    """
+     Representa la pantalla actualizar transacción utilizando Kivy.
+
+     Attributes:
+         controlador (AppControlador): Instancia del controlador que gestiona la comunicación entre la vista y el modelo.
+     """
     def __init__(self, controlador: AppControlador, **kw):
+        """
+        Inicializa la pantalla actualizar transacción con una instancia del controlador.
+
+        Args:
+            controlador (AppControlador): Objeto que contiene el controlador.
+            **kwargs: Argumentos adicionales para la inicialización de la clase base App.
+        """
         super().__init__(**kw)
         self.controlador: AppControlador = controlador 
 
     def cargar_transacciones(self):
+        """
+        Carga las transacciones realizadas.
+        """
         self.ids.transacciones_spinner.values = self.obtener_lista_de_transacciones()
 
     def obtener_lista_de_transacciones(self):
+        """
+        Obtiene las transacciones realizadas por el usuario.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             return []
 
@@ -21,6 +40,9 @@ class ActualizarTransaccionScreen(Screen):
 
 
     def actualizar_transaccion(self):
+        """
+        Actualiza las transacciones del usuario.
+        """
         seleccion_index = self.ids.transacciones_spinner.text.split('.')[0]
         if not seleccion_index.isdigit():
             self.ids.mensaje_label.text = "Selecciona una transacción válida."
@@ -57,4 +79,7 @@ class ActualizarTransaccionScreen(Screen):
 
 
     def volver(self):
+        """
+        Cambia a la pantalla menú 2.
+        """
         self.manager.current = "Menu2Screen"

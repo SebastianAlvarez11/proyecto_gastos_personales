@@ -5,20 +5,34 @@ from kivy.lang import Builder
 Builder.load_file("src/view/gui/kv/cambiar_contrasena_screen.kv")
 
 class CambiarContrasenaScreen(Screen):
+    """
+     Representa la pantalla cambiar contraseña utilizando Kivy.
+
+     Attributes:
+         controlador (AppControlador): Instancia del controlador que gestiona la comunicación entre la vista y el modelo.
+     """
     def __init__(self, controlador: AppControlador, **kw):
+        """
+        Inicializa la pantalla cambiar contraseña con una instancia del controlador.
+
+        Args:
+            controlador (AppControlador): Objeto que contiene el controlador.
+            **kwargs: Argumentos adicionales para la inicialización de la clase base App.
+        """
         super().__init__(**kw)
         self.controlador: AppControlador = controlador
 
     def cambiar_contrasena(self):
+        """
+        El usuario cambia la contraseña.
+        """
         nueva_contrasena = self.ids.nueva_contrasena_input.text.strip()
         self.controlador.cambiar_contrasena(nueva_contrasena)
         self.ids.mensaje_label.text = "Has cambiado la contraseña exitosamente."
-        
-        #menu_2_screen = self.manager.get_screen("Menu2Screen")
-        #menu_2_screen.cambiar_mensaje_de_cambio_de_contrasena("Has cambiado la contraseña exitosamente.")
-
-        #self.manager.current = "Menu2Screen"
 
     def volver(self):
+        """
+        Cambia a la pantalla menú 2.
+        """
         self.manager.current = "Menu2Screen"
 

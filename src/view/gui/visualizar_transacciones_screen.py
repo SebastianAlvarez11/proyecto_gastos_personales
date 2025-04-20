@@ -5,12 +5,28 @@ from kivy.lang import Builder
 Builder.load_file("src/view/gui/kv/visualizar_transacciones_screen.kv")
 
 class VisualizarTransaccionesScreen(Screen):
+    """
+     Representa la pantalla visualizar transacciones utilizando Kivy.
+
+     Attributes:
+         controlador (AppControlador): Instancia del controlador que gestiona la comunicación entre la vista y el modelo.
+     """
     def __init__(self, controlador: AppControlador, **kw):
+        """
+        Inicializa la pantalla principal con una instancia del controlador.
+
+        Args:
+            controlador (AppControlador): Objeto que contiene el controlador.
+            **kwargs: Argumentos adicionales para la inicialización de la clase base App.
+        """
         super().__init__(**kw)
         self.controlador: AppControlador = controlador
 
     
     def visualizar_transacciones(self):
+        """
+        El usuario puede visualizar las transacciones realizadas.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             self.ids.mensaje_label.text = "No has iniciado sesión."
             return
@@ -33,4 +49,7 @@ class VisualizarTransaccionesScreen(Screen):
 
 
     def volver(self):
+        """
+        Cambia a la pantalla menú 2.
+        """
         self.manager.current = "Menu2Screen"

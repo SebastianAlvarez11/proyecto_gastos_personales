@@ -3,16 +3,35 @@ from src.model.transacciones import Transacciones
 from src.controlador.app_controlador import AppControlador
 
 class Consola:
+    """
+    Representa el menú principal de la aplicación.
+
+    Attributes:
+        controlador (AppControlador): Instancia de la aplicación.
+    """
+
     def __init__(self, controlador: AppControlador):
+        """
+        Inicializa la aplicación.
+
+        Args:
+            controlador (AppControlador): Objeto que contiene la lógica del juego.
+        """
         self.controlador: AppControlador = controlador 
     
     def mostrar_menu_1(self):
+        """
+        Muestra el primer menú al usuario.
+        """
         print("\n--- Menú Principal ---")
         print("1. Crear cuenta")
         print("2. Iniciar sesión")
         print("3. Salir")
 
     def mostrar_menu_2(self):
+        """
+        Muestra el segundo menú al usuario.
+        """
         print("\n--- Menú del Usuario ---")
         print("1. Realizar transacción")
         print("2. Actualizar transacción")
@@ -22,6 +41,9 @@ class Consola:
         print("6. Salir")
 
     def crear_cuenta(self):
+        """
+        El usuario crea una cuenta.
+        """
         nombre = input("Nombre del usuario: ")
         tipo_documento = input("Tipo de documento: ")
         numero_documento = int(input("Número de documento: "))
@@ -35,6 +57,9 @@ class Consola:
         print(f"La cuenta se ha creado exitosamente!\nInicie sesión para ver el menú")
 
     def iniciar_sesion(self):
+        """
+        El usuario inicia sesión con los datos creados.
+        """
         nombre = input("Nombre de usuario: ")
         contrasena = input("Contraseña: ")
         if self.controlador.iniciar_sesion(nombre, contrasena):
@@ -43,6 +68,9 @@ class Consola:
             print("Error al iniciar sesión. Nombre o contraseña incorrectos.")
 
     def realizar_transaccion(self):
+        """
+        El usuario realiza una transacción.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
@@ -66,6 +94,9 @@ class Consola:
     
 
     def actualizar_transaccion(self):
+        """
+        El usuario actualiza una transacción.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
@@ -123,6 +154,9 @@ class Consola:
             print("Error: Debes ingresar un número válido.")
 
     def ver_transacciones(self):
+        """
+        El usuario puede ver sus transacciones.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
@@ -144,6 +178,9 @@ class Consola:
             print(f"Error: {str(e)}")
 
     def cambiar_contrasena(self):
+        """
+        El usuario puede cambiar la contraseña.
+        """
         if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
@@ -161,10 +198,16 @@ class Consola:
 
 
     def cerrar_sesion(self):
+        """
+        El usuario cierra sesión.
+        """
         self.controlador.aplicacion.cerrar_sesion()
         print("Sesión cerrada.")
     
     def ejecutar(self):
+        """
+        Inicia la aplicación y gestiona las opciones seleccionadas por el usuario.
+        """
         while True:
             if not self.controlador.validar_usuario_logueado():
                 self.mostrar_menu_1()
