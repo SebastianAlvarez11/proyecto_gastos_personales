@@ -23,6 +23,8 @@
         TextInput:
             id: nombre_input
             multiline: False
+            on_text_validate: contrasena_input.focus = True
+
         Label:
             text: "Contraseña: "
         TextInput:

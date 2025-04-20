@@ -23,31 +23,42 @@
         TextInput:
             id: nombre_input
             multiline: False
+            on_text_validate: tipo_documento_input.focus = True
+
         Label:
             text: "Tipo de documento: "
         TextInput:
             id: tipo_documento_input    
             multiline: False
+            on_text_validate: numero_de_documento_input.focus = True
+
         Label:
             text: "Número de documento: "
         TextInput:
             id: numero_de_documento_input           
             multiline: False
+            on_text_validate: contrasena_input.focus = True
+
         Label:
             text: "Contraseña (Debe contener al menos un número, una letra mayúscula y una letra especial.): "
         TextInput:
             id: contrasena_input          
             multiline: False
+            on_text_validate: correo_input.focus = True
+
         Label:
             text: "Correo: "
         TextInput:
             id: correo_input          
             multiline: False
+            on_text_validate: fecha_nacimiento_input.focus = True
+
         Label:
             text: "Fecha de nacimiento (dd/mm/yyyy): "
         TextInput:
             id: fecha_nacimiento_input
             multiline: False
+            
 
 
     BoxLayout:

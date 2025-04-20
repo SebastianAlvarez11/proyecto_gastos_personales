@@ -19,7 +19,7 @@ class VisualizarTransaccionesScreen(Screen):
         fecha_final = self.ids.fecha_final_input.text.strip()
 
         try:
-            transacciones = self.controlador.aplicacion.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
+            transacciones = self.controlador.aplicacion.obtener_usuario_logueado().visualizar_transacciones(fecha_inicial, fecha_final)
             if transacciones:
                 resultado = "\n".join(
                     f"{t.fecha} - {t.categoria}: ${t.cantidad_dinero}" for t in transacciones

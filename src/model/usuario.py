@@ -26,13 +26,80 @@ class Usuario:
             correo (str): El correo del usuario.
             fecha_nacimiento (str): La fecha de nacimiento del usuario.
         """
-        self.transacciones:list[Transacciones] = []
-        self.nombre = nombre
-        self.tipo_documento = tipo_documento
-        self.numero_documento = numero_de_documento
-        self.contrasena = contrasena
-        self.correo = correo
-        self.fecha_nacimiento = fecha_nacimiento
+        self.__transacciones:list[Transacciones] = []
+        self.__nombre = nombre
+        self.__tipo_documento = tipo_documento
+        self.__numero_documento = numero_de_documento
+        self.__contrasena = contrasena
+        self.__correo = correo
+        self.__fecha_nacimiento = fecha_nacimiento
+
+    def obtener_transacciones(self):
+        """
+        Obtiene la lista de transacciones.
+
+        Returns:
+            Transacciones: objeto que representa las transacciones.
+        """
+        return self.__transacciones
+    
+    def obtener_nombre(self):
+        """
+        Obtiene el nombre del usuario.
+
+        Returns:
+            El nombre del usuario.
+        """
+        return self.__nombre
+    
+    def obtener_tipo_documento(self):
+        """
+        Obtiene el tipo de documento del usuario.
+
+        Returns:
+            El tipo de documento del usuario.
+        """
+        return self.__tipo_documento
+    
+    def obtener_numero_documento(self):
+        """
+        Obtiene el número de documento del usuario.
+
+        Returns:
+            El número de documento del usuario.
+        """
+        return self.__numero_documento
+    
+    def obtener_contrasena(self):
+        """
+        Obtiene la contraseña del usuario.
+
+        Returns:
+            La contraseña del usuario.
+        """
+        return self.__contrasena
+    
+    def obtener_correo(self):
+        """
+        Obtiene el correo del usuario.
+
+        Returns:
+            El correo del usuario.
+        """
+        return self.__correo
+    
+    def obtener_fecha_nacimiento(self):
+        """
+        Obtiene el nombre de el usuario.
+
+        Returns:
+            El nombre del usuario.
+        """
+        return self.__fecha_nacimiento
+
+
+
+
 
     def realizar_transaccion(self, transaccion: Transacciones):
         """
@@ -46,11 +113,11 @@ class Usuario:
         """
 
         self.validar_realizar_transaccion_cantidad_cero(transaccion)
-        self.validar_realizar_transaccion_sin_datos(transaccion)
+        self.__validar_realizar_transaccion_sin_datos(transaccion)
         transaccion.validar_fecha()
         transaccion.validar_hora()
         transaccion.validar_cantidad_dinero()
-        self.transacciones.append(transaccion)
+        self.__transacciones.append(transaccion)
 
     def actualizar_transaccion(self, nueva_transaccion: Transacciones):
         """
@@ -62,24 +129,24 @@ class Usuario:
         Return:
             Se actualiza la transacción nueva por la transacción anterior.
         """
-        self.validar_actualizar_transaccion_cantidad_cero(nueva_transaccion)
+        self.__validar_actualizar_transaccion_cantidad_cero(nueva_transaccion)
         nueva_transaccion.validar_fecha()
         nueva_transaccion.validar_hora()
 
-        for i in range(len(self.transacciones)):
-            transaccion_actual = self.transacciones[i]
-            if (transaccion_actual.categoria == nueva_transaccion.categoria and
-                transaccion_actual.fecha == nueva_transaccion.fecha and
-                transaccion_actual.hora == nueva_transaccion.hora):
-                if (transaccion_actual.cantidad_dinero == nueva_transaccion.cantidad_dinero):
+        for i in range(len(self.__transacciones)):
+            transaccion_actual = self.__transacciones[i]
+            if (transaccion_actual.obtener_categoria() == nueva_transaccion.obtener_categoria() and
+                transaccion_actual.obtener_fecha() == nueva_transaccion.obtener_fecha() and
+                transaccion_actual.obtener_hora() == nueva_transaccion.obtener_hora()):
+                if (transaccion_actual.obtener_cantidad_dinero() == nueva_transaccion.obtener_cantidad_dinero()):
                     raise ErrorTransaccionSinCambios() 
                 
-            for transaccion in self.transacciones:
-                if transaccion.id == nueva_transaccion.id:
-                    transaccion.cantidad_dinero = nueva_transaccion.cantidad_dinero
-                    transaccion.categoria = nueva_transaccion.categoria
-                    transaccion.fecha = nueva_transaccion.fecha
-                    transaccion.hora = nueva_transaccion.hora 
+            for transaccion in self.__transacciones:
+                if transaccion.obtener_id() == nueva_transaccion.obtener_id():
+                    transaccion.actualizar_cantidad_dinero(nueva_transaccion.obtener_cantidad_dinero())
+                    transaccion.actualizar_categoria(nueva_transaccion.obtener_categoria())
+                    transaccion.actualizar_fecha(nueva_transaccion.obtener_fecha())
+                    transaccion.actualizar_hora(nueva_transaccion.obtener_hora()) 
                     return True
             
         raise ErrorTransaccionNoExistente()
@@ -107,7 +174,7 @@ class Usuario:
                 fecha_final = datetime.strptime(fecha_final, "%d/%m/%Y")
 
         transacciones_filtradas = [
-            t for t in self.transacciones if fecha_inicial <= datetime.strptime(t.fecha, "%d/%m/%Y") <= fecha_final
+            t for t in self.__transacciones if fecha_inicial <= datetime.strptime(t.obtener_fecha(), "%d/%m/%Y") <= fecha_final
         ]
         
     
@@ -124,14 +191,13 @@ class Usuario:
         Return:
             Se muestra una gráfica al usuario de sus transacciones en las fecha dadas.
         """
-        #transacciones_filtradas = self.visualizar_transacciones(fecha_inicial, fecha_final)
         
         data = {'Categoria': [], 'Cantidad de dinero': []}
         
         for trans in transacciones:
-            tipo = 'Ingreso' if trans.cantidad_dinero > 0 else 'Gasto'
-            data['Categoria'].append(f"{trans.categoria} - {tipo}")
-            data['Cantidad de dinero'].append(trans.cantidad_dinero)
+            tipo = 'Ingreso' if trans.obtener_cantidad_dinero() > 0 else 'Gasto'
+            data['Categoria'].append(f"{trans.obtener_categoria()} - {tipo}")
+            data['Cantidad de dinero'].append(trans.obtener_cantidad_dinero())
 
         df = pd.DataFrame(data)
 
@@ -141,7 +207,7 @@ class Usuario:
 
         ax.bar(df_agrupado['Categoria'], df_agrupado['Cantidad de dinero'], color=['green' if x > 0 else 'red' for x in df_agrupado['Cantidad de dinero']])
 
-        ax.set_title(f'Transacciones de {self.nombre} entre {fecha_inicial} y {fecha_final}', fontsize=14)
+        ax.set_title(f'Transacciones de {self.obtener_nombre()} entre {fecha_inicial} y {fecha_final}', fontsize=14)
         ax.set_xlabel('Categoría', fontsize=12)
         ax.set_ylabel('Cantidad de dinero ($)', fontsize=12)
 
@@ -159,10 +225,10 @@ class Usuario:
         Return:
             Error, la cantidad de dinero debe ser diferente a 0.
         """
-        if transaccion.cantidad_dinero == 0:
+        if transaccion.obtener_cantidad_dinero() == 0:
             raise ErrorTransaccionCantidadCero()
         
-    def validar_realizar_transaccion_sin_datos(self, transaccion):
+    def __validar_realizar_transaccion_sin_datos(self, transaccion):
         """
         Se válida que la transacción no este vacía.
 
@@ -172,10 +238,10 @@ class Usuario:
         Return:
             Error al crear transacción, faltan datos.
         """
-        if not transaccion.cantidad_dinero or not transaccion.categoria or not transaccion.fecha or not transaccion.hora:
+        if not transaccion.obtener_cantidad_dinero() or not transaccion.obtener_categoria() or not transaccion.obtener_fecha() or not transaccion.obtener_hora():
             raise ErrorCrearTransaccionSinDatos()        
     
-    def validar_actualizar_transaccion_cantidad_cero(self, nueva_transaccion):
+    def __validar_actualizar_transaccion_cantidad_cero(self, nueva_transaccion):
         """
         Se válida que la cantidad de dinero no sea 0.
 
@@ -185,7 +251,7 @@ class Usuario:
         Return:
             Error, la cantidad de dinero debe ser diferente a 0.
         """
-        if nueva_transaccion.cantidad_dinero == 0:
+        if nueva_transaccion.obtener_cantidad_dinero() == 0:
             raise ErrorTransaccionCantidadCero()
 
     def validar_visualizar_transacciones_sin_fechas(self, fecha_inicial, fecha_final):
@@ -367,6 +433,15 @@ class Usuario:
             return True
         except:
             raise ErrorFechaNoValida()
+        
+    def cambiar_contrasena(self, nueva_contrasena):
+        """
+        La contraseña se cambia por la nueva contraseña.
+
+        Return:
+            La nueva contraseña.
+        """
+        self.__contrasena = nueva_contrasena
         
 
         

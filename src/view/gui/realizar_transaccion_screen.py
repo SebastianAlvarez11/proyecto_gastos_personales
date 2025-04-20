@@ -12,7 +12,7 @@ class RealizarTransaccionScreen(Screen):
 
     def crear_transaccion(self):
         transaccion = Transacciones(
-            id = len(self.controlador.aplicacion.usuario_logueado.transacciones) + 1,
+            id = len(self.controlador.aplicacion.obtener_usuario_logueado().obtener_transacciones()) + 1,
             cantidad_dinero = float(self.ids.cantidad_dinero_input.text),
             categoria = self.ids.categoria_input.text,
             fecha = self.ids.fecha_input.text,

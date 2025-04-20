@@ -1,6 +1,6 @@
 <VisualizarTransaccionesScreen>:
-    BoxLayout:
-        orientation: 'vertical'
+    GridLayout:
+        cols: 1
         spacing: 20
         padding: [50, 50, 50, 50]
 
@@ -15,14 +15,15 @@
 
     BoxLayout:
         orientation: "vertical"
-        spacing: 3
-        padding: [300, 300, 300, 300]
+        spacing: 2
+        padding: [300, 100, 300, 100]
 
         Label:
             text: "Ingrese la fecha inicial (dd/mm/yyyy):"
         TextInput:
             id: fecha_inicial_input
             multiline: False
+            on_text_validate: fecha_final_input.focus = True
 
         Label:
             text: "Ingrese la fecha final (dd/mm/yyyy):"

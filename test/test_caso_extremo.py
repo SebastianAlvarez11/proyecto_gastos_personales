@@ -14,7 +14,7 @@ def test_transaccion_gran_cantidad_de_dinero_1():
     app.iniciar_sesion("Pepe", "Qwer1234.")
     transaccion: Transacciones = Transacciones(1, 1000000000, "salario", "30/01/2025", "10:00")
     usuario.realizar_transaccion(transaccion)
-    assert len(usuario.transacciones) == 1
+    assert len(usuario.obtener_transacciones()) == 1
 
 def test_transaccion_cero_cantidad_2():
     app: Aplicacion = Aplicacion()
@@ -127,10 +127,10 @@ def test_iniciar_sesion_sistema_caido_12():
 def test__crear_cuenta_contrasena_muy_larga_13():
     app: Aplicacion = Aplicacion()
     usuario: Usuario = Usuario("Fred", "cedula", 16564532, "12345678900qwertyuiopasdfghjklñzxcvbnM.", "fredd1995@gmail.com", "09/05/1998")
-    lon = len(app.usuarios)
+    lon = len(app.__usuarios)
     app.crear_cuenta(usuario)
     app.iniciar_sesion("Fred", "12345678900qwertyuiopasdfghjklñzxcvbnM.")
-    assert len(app.usuarios) == lon+1
+    assert len(app.__usuarios) == lon+1
 
 def test_crear_cuenta_fecha_muy_antigua_14():
     app: Aplicacion = Aplicacion()

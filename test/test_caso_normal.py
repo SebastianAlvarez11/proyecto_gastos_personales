@@ -9,9 +9,9 @@ def test_caso_normal_1():
     app.crear_cuenta(usuario)
     app.iniciar_sesion("Juan", "Mdsse12.")
     transaccion: Transacciones = Transacciones(1, 50000, "venta", "05/03/2025", "5:40")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.realizar_transaccion(transaccion)
-    assert len(usuario.transacciones) == lon+1
+    assert len(usuario.obtener_transacciones()) == lon+1
 
 def test_caso_normal_2():
     app: Aplicacion = Aplicacion()
@@ -19,9 +19,9 @@ def test_caso_normal_2():
     app.crear_cuenta(usuario)
     app.iniciar_sesion("Juan", "Mdsse12.")
     transaccion: Transacciones = Transacciones(1, -15000, "comida", "05/03/2025", "10:30")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.realizar_transaccion(transaccion)
-    assert len(usuario.transacciones) == lon+1
+    assert len(usuario.obtener_transacciones()) == lon+1
 
 def test_caso_normal_3():
     app: Aplicacion = Aplicacion()
@@ -29,9 +29,9 @@ def test_caso_normal_3():
     app.crear_cuenta(usuario)
     app.iniciar_sesion("Juan", "Mdsse12.")
     transaccion: Transacciones = Transacciones(1, -3400, "transporte", "01/03/2025", "8:30")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.realizar_transaccion(transaccion)
-    assert len(usuario.transacciones) == lon+1
+    assert len(usuario.obtener_transacciones()) == lon+1
         
 def test_caso_normal_4():
     app: Aplicacion = Aplicacion()
@@ -41,9 +41,9 @@ def test_caso_normal_4():
     transaccion: Transacciones = Transacciones(1, -3400, "transporte", "01/03/2025", "8:30")
     usuario.realizar_transaccion(transaccion)
     nueva_transaccion: Transacciones = Transacciones(1, -4000, "transporte", "01/03/2025", "8:30")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.actualizar_transaccion(nueva_transaccion)
-    assert len(usuario.transacciones) == lon
+    assert len(usuario.obtener_transacciones()) == lon
     
 def test_caso_normal_5():
     app: Aplicacion = Aplicacion()
@@ -53,9 +53,9 @@ def test_caso_normal_5():
     transaccion: Transacciones = Transacciones(1, -8000, "comida", "07/03/2025", "12:30")
     usuario.realizar_transaccion(transaccion)
     nueva_transaccion: Transacciones = Transacciones(1, -5000, "comida", "07/03/2025", "12:30")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.actualizar_transaccion(nueva_transaccion)
-    assert len(usuario.transacciones) == lon
+    assert len(usuario.obtener_transacciones()) == lon
 
 def test_caso_normal_6():
     app: Aplicacion = Aplicacion()
@@ -65,9 +65,9 @@ def test_caso_normal_6():
     transaccion: Transacciones = Transacciones(1, 100000, "pago", "05/03/2025", "1:00")
     usuario.realizar_transaccion(transaccion)
     nueva_transaccion: Transacciones = Transacciones(1, -5000, "comida", "07/03/2025", "12:30")
-    lon = len(usuario.transacciones)
+    lon = len(usuario.obtener_transacciones())
     usuario.actualizar_transaccion(nueva_transaccion)
-    assert len(usuario.transacciones) == lon
+    assert len(usuario.obtener_transacciones()) == lon
 
 def test_caso_normal_7():
     app: Aplicacion = Aplicacion()
@@ -136,23 +136,23 @@ def test_caso_normal_12():
 def test_caso_normal_13():
     app: Aplicacion = Aplicacion()
     usuario: Usuario = Usuario("Carlos", "cedula", 23434, "Mdsse12.", "carlossht09@gmail.com", "11/09/2000")
-    lon = len(app.usuarios)
+    lon = len(app.__usuarios)
     app.crear_cuenta(usuario)
-    assert len(app.usuarios) == lon +1
+    assert len(app.__usuarios) == lon +1
     
 def test_caso_normal_14():
     app: Aplicacion = Aplicacion()
     usuario: Usuario = Usuario("Luis", "documento de indentidad", 123499, "Mdsse12.", "luish123@gmail.com", "11/09/2000")
-    lon = len(app.usuarios)
+    lon = len(app.__usuarios)
     app.crear_cuenta(usuario)
-    assert len(app.usuarios) == lon +1
+    assert len(app.__usuarios) == lon +1
 
 def test_caso_normal_15():
     app: Aplicacion = Aplicacion()
     usuario: Usuario = Usuario("Bon", "cedula", 3788933, "Mdsse12.", "bonn_0101@gmail.com", "11/09/2000")
-    lon = len(app.usuarios)
+    lon = len(app.__usuarios)
     app.crear_cuenta(usuario)
-    assert len(app.usuarios) == lon +1
+    assert len(app.__usuarios) == lon +1
 
 def test_caso_normal_16():
     app: Aplicacion = Aplicacion()

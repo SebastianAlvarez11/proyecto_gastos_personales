@@ -14,10 +14,38 @@ class Aplicacion:
         """
         Inicializa una instancia de Aplicacion.
         """
-        self.usuarios: list[Usuario] = []
-        self.intentos_fallidos = {}
-        self.tiempos_de_bloqueo = {}
-        self.usuario_logueado: Usuario = None
+        self.__usuarios: list[Usuario] = []
+        self.__intentos_fallidos = {}
+        self.__tiempos_de_bloqueo = {}
+        self.__usuario_logueado: Usuario = None
+
+
+    def obtener_usuarios(self):
+        """
+        Obtiene la lista de usuarios.
+
+        Returns:
+            Usuario: objeto que representa al usuario.
+        """
+        return self.__usuarios
+    
+    def obtener_intentos_fallidos(self):
+        """
+        Obtiene la cantidad de intentos fallidos.
+
+        Returns:
+            int: Número de intentos fallidos.
+        """
+        return self.__intentos_fallidos
+    
+    def obtener_usuario_logueado(self):
+        """
+        Obtiene si el usuario esta logueado.
+
+        Returns:
+            El usuario logueado.
+        """
+        return self.__usuario_logueado
     
     def crear_cuenta(self, usuario: Usuario):
         """
@@ -29,12 +57,12 @@ class Aplicacion:
         Return:
             El usuario se añade a la lista de usuarios de la aplicación.
         """
-        usuario.validar_tipo_documento(usuario.tipo_documento)
-        usuario.validar_fecha_nacimiento(usuario.fecha_nacimiento)
-        usuario.validar_correo(usuario.correo)
-        usuario.validar_contrasena(usuario.contrasena)
+        usuario.validar_tipo_documento(usuario.obtener_tipo_documento())
+        usuario.validar_fecha_nacimiento(usuario.obtener_fecha_nacimiento())
+        usuario.validar_correo(usuario.obtener_correo())
+        usuario.validar_contrasena(usuario.obtener_contrasena())
         self.validar_crear_cuenta_usuario_existente(usuario)
-        self.usuarios.append(usuario)
+        self.__usuarios.append(usuario)
 
     def iniciar_sesion(self, nombre: str, contrasena: str):
         """
@@ -52,14 +80,14 @@ class Aplicacion:
         self.validar_iniciar_sesion_sin_nombre(nombre)
         self.validar_inicio_sesion_activo()
 
-        for usuario in self.usuarios:
-            if usuario.nombre == nombre:
-                if usuario.contrasena == contrasena:
-                    self.usuario_logueado = usuario
-                    self.intentos_fallidos[self.usuario_logueado.nombre] = 0
+        for usuario in self.__usuarios:
+            if usuario.obtener_nombre() == nombre:
+                if usuario.obtener_contrasena() == contrasena:
+                    self.__usuario_logueado = usuario
+                    self.__intentos_fallidos[self.__usuario_logueado.obtener_nombre()] = 0
                     return True
                 else:
-                    self.intentos_fallidos[nombre] = self.intentos_fallidos.get(nombre, 0)+ 1
+                    self.__intentos_fallidos[nombre] = self.__intentos_fallidos.get(nombre, 0)+ 1
                     raise ErrorInicioSesionContrasenaIncorrecta()
         raise ErrorInicioSesionUsuarioNoExistente()  
     
@@ -74,7 +102,7 @@ class Aplicacion:
             Se agrega la transacción a las transacciones del usuario.
         """
         self.validar_usuario_logueado()
-        self.usuario_logueado.realizar_transaccion(transaccion)
+        self.obtener_usuario_logueado().realizar_transaccion(transaccion)
 
     def cambiar_contrasena(self, nueva_contrasena):
         """
@@ -90,9 +118,10 @@ class Aplicacion:
         self.validar_intentos_fallidos_cambiar_contrasena()
 
         try:
-            self.usuario_logueado.validar_contrasena(nueva_contrasena)
+            usuario_logueado = self.obtener_usuario_logueado()
+            usuario_logueado.validar_contrasena(nueva_contrasena)
         except Exception as exception:
-            self.intentos_fallidos[self.usuario_logueado.nombre] += 1
+            self.__intentos_fallidos[self.__usuario_logueado.obtener_nombre()] += 1
             raise exception
         
             #if self.tiempos_bloqueo.get(self.usuario_logueado.nombre) and time.time() - self.tiempos_bloqueo[self.usuario_logueado.nombre] < Aplicacion.TIEMPO_BLOQUEO:
@@ -100,14 +129,14 @@ class Aplicacion:
             #else:
             #    self.intentos_fallidos[self.usuario_logueado.nombre] = 0
         
-        if self.usuario_logueado:
-            self.usuario_logueado.contrasena = nueva_contrasena
+        if self.__usuario_logueado:
+            self.__usuario_logueado.cambiar_contrasena(nueva_contrasena)
             return True  
         
-        self.intentos_fallidos[self.usuario_logueado.nombre] = 0
+        self.__intentos_fallidos[self.__usuario_logueado.obtener_nombre()] = 0
 
-        if self.usuario_logueado.nombre in self.tiempos_bloqueo:
-            del self.tiempos_bloqueo[self.usuario_logueado.nombre]
+        if self.__usuario_logueado.obtener_nombre() in self.tiempos_bloqueo:
+            del self.tiempos_bloqueo[self.__usuario_logueado.obtener_nombre()]
 
     def visualizar_transacciones(self, fecha_inicial, fecha_final):
         """
@@ -122,7 +151,7 @@ class Aplicacion:
         """
         if not self.validar_usuario_logueado():
             raise ErrorVisualizarSinLoguearse()  
-        self.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
+        self.__usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
 
     def actualizar_transaccion(self, nueva_transaccion):
         """
@@ -136,7 +165,7 @@ class Aplicacion:
         """
         if not self.validar_usuario_logueado():
             raise ErrorTransaccionSinLoguearse()
-        self.usuario_logueado.actualizar_transaccion(nueva_transaccion)
+        self.__usuario_logueado.actualizar_transaccion(nueva_transaccion)
 
     def cerrar_sesion(self):
         """
@@ -145,7 +174,7 @@ class Aplicacion:
         Return:
             Se cierra la sesión.
         """
-        self.usuario_logueado = None
+        self.__usuario_logueado = None
 
     def validar_crear_cuenta_usuario_existente(self, usuario):
         """
@@ -157,8 +186,8 @@ class Aplicacion:
         Return:
             Error, el usuario ya existe.
         """
-        for usuario_existe in self.usuarios:
-            if usuario_existe.correo == usuario.correo:
+        for usuario_existe in self.__usuarios:
+            if usuario_existe.obtener_correo() == usuario.obtener_correo():
                 raise ErrorUsuarioExistente()
 
     def validar_sistema_funciona(self, nombre: str, contrasena:str):
@@ -185,7 +214,7 @@ class Aplicacion:
         Return:
             Error, demasiados intentos fallidos, usuario bloqueado.
         """
-        if self.intentos_fallidos.get(nombre, 0) >= Aplicacion.Maximos_intentos:
+        if self.__intentos_fallidos.get(nombre, 0) >= Aplicacion.Maximos_intentos:
             raise ErrorMuchosIntentosFallidos()
         
     def validar_iniciar_sesion_sin_nombre(self, nombre):
@@ -208,7 +237,7 @@ class Aplicacion:
         Return:
             Error, el usuario ya está autenticado.
         """
-        if self.usuario_logueado:
+        if self.__usuario_logueado:
             raise ErrorInicioSesionActivo()
 
     def validar_contrasena_es_igual_a_la_anterior(self, nueva_contrasena):
@@ -221,8 +250,8 @@ class Aplicacion:
         Return:
             Error, no se puede cambiar la contraseña ya que es igual a la contraseña antigua.\nIntentelo nuevamente.
         """
-        if self.usuario_logueado.contrasena == nueva_contrasena:
-            self.intentos_fallidos[self.usuario_logueado.nombre] += 1
+        if self.__usuario_logueado.obtener_contrasena() == nueva_contrasena:
+            self.__intentos_fallidos[self.__usuario_logueado.obtener_nombre()] += 1
             raise ErrorContrasenaIgual()
         
     def validar_intentos_fallidos_cambiar_contrasena(self):
@@ -232,7 +261,7 @@ class Aplicacion:
         Return:
             Error, no se puede cambiar la contraseña ya que es igual a la contraseña antigua.\nIntentelo nuevamente.
         """
-        if self.intentos_fallidos.get(self.usuario_logueado.nombre) >= Aplicacion.Maximos_intentos:
+        if self.__intentos_fallidos.get(self.__usuario_logueado.obtener_nombre()) >= Aplicacion.Maximos_intentos:
             raise ErrorContrasenaIntentosFallidos()
 
     def validar_usuario_logueado(self):
@@ -242,4 +271,4 @@ class Aplicacion:
         Return:
             Se devuelve el usuario logueado.
         """
-        return self.usuario_logueado is not None
+        return self.__usuario_logueado is not None

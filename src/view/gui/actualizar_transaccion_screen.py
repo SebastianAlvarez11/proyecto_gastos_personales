@@ -16,8 +16,8 @@ class ActualizarTransaccionScreen(Screen):
         if not self.controlador.aplicacion.validar_usuario_logueado():
             return []
 
-        transacciones = self.controlador.aplicacion.usuario_logueado.transacciones
-        return [f"{i+1}. {t.fecha} - {t.categoria}: ${t.cantidad_dinero}" for i, t in enumerate(transacciones)]
+        transacciones = self.controlador.aplicacion.obtener_usuario_logueado().obtener_transacciones()
+        return [f"{i+1}. {t.obtener_fecha()} - {t.obtener_categoria()}: ${t.obtener_cantidad_dinero()}" for i, t in enumerate(transacciones)]
 
 
     def actualizar_transaccion(self):
@@ -27,7 +27,7 @@ class ActualizarTransaccionScreen(Screen):
             return
 
         seleccion = int(seleccion_index) - 1
-        transacciones = self.controlador.aplicacion.usuario_logueado.transacciones
+        transacciones = self.controlador.aplicacion.obtener_usuario_logueado().obtener_transacciones()
 
         if seleccion < 0 or seleccion >= len(transacciones):
             self.ids.mensaje_label.text = "Índice fuera de rango."
@@ -39,18 +39,18 @@ class ActualizarTransaccionScreen(Screen):
 
         if campo == "Cantidad de dinero":
             try:
-                transaccion.cantidad_dinero = float(nuevo_valor)
+                transaccion.actualizar_cantidad_dinero(float(nuevo_valor))
                 self.ids.mensaje_label.text = f"Cantidad actualizada a ${nuevo_valor}"
             except ValueError:
                 self.ids.mensaje_label.text = "Valor inválido para cantidad."
         elif campo == "Categoría":
-            transaccion.categoria = nuevo_valor
+            transaccion.actualizar_categoria(nuevo_valor)
             self.ids.mensaje_label.text = f"Categoría actualizada a {nuevo_valor}"
         elif campo == "Fecha":
-            transaccion.fecha = nuevo_valor
+            transaccion.actualizar_fecha(nuevo_valor)
             self.ids.mensaje_label.text = f"Fecha actualizada a {nuevo_valor}"
         elif campo == "Hora":
-            transaccion.hora = nuevo_valor
+            transaccion.actualizar_hora(nuevo_valor)
             self.ids.mensaje_label.text = f"Hora actualizada a {nuevo_valor}"
         else:
             self.ids.mensaje_label.text = "Campo no válido."

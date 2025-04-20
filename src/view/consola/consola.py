@@ -54,7 +54,7 @@ class Consola:
         hora = input("Hora (hh:mm): ")
 
         transaccion = Transacciones(
-            id = len(self.controlador.aplicacion.usuario_logueado.transacciones) + 1,
+            id = len(self.controlador.aplicacion.obtener_usuario_logueado().obtener_transacciones()) + 1,
             cantidad_dinero = cantidad_dinero,
             categoria = categoria,
             fecha = fecha,
@@ -71,13 +71,13 @@ class Consola:
             return
 
         print("--- Transacciones disponibles para actualizar ---")
-        transacciones = self.controlador.aplicacion.usuario_logueado.transacciones
+        transacciones = self.controlador.aplicacion.obtener_usuario_logueado().obtener_transacciones()
         if not transacciones:
             print("No tienes transacciones registradas.")
             return
 
         for i, transaccion in enumerate(transacciones, start=1):
-            print(f"{i}. {transaccion.fecha} - {transaccion.categoria}: ${transaccion.cantidad_dinero}")
+            print(f"{i}. {transaccion.obtener_fecha()} - {transaccion.obtener_categoria()}: ${transaccion.obtener_cantidad_dinero()}")
 
         try:
             seleccion = int(input("Selecciona el número de la transacción que deseas actualizar: "))
@@ -87,7 +87,7 @@ class Consola:
 
             transaccion_a_actualizar = transacciones[seleccion - 1]
 
-            print(f"Transacción seleccionada: {transaccion_a_actualizar.fecha} - {transaccion_a_actualizar.categoria}: ${transaccion_a_actualizar.cantidad_dinero}")
+            print(f"Transacción seleccionada: {transaccion_a_actualizar.obtener_fecha()} - {transaccion_a_actualizar.obtener_categoria()}: ${transaccion_a_actualizar.obtener_cantidad_dinero()}")
             
             print("¿Qué deseas actualizar?")
             print("1. Cantidad de dinero")
@@ -98,22 +98,22 @@ class Consola:
 
             if campo_seleccionado == "1":
                 nueva_cantidad = float(input("Introduce la nueva cantidad de dinero (positiva para ingresos, negativa para gastos): "))
-                transaccion_a_actualizar.cantidad_dinero = nueva_cantidad
+                transaccion_a_actualizar.actualizar_cantidad_dinero(nueva_cantidad)
                 print(f"Cantidad de dinero actualizada a ${nueva_cantidad}")
 
             elif campo_seleccionado == "2":
                 nueva_categoria = input("Introduce la nueva categoría: ")
-                transaccion_a_actualizar.categoria = nueva_categoria
+                transaccion_a_actualizar.actualizar_categoria(nueva_categoria)
                 print(f"Categoría actualizada a '{nueva_categoria}'")
 
             elif campo_seleccionado == "3":
                 nueva_fecha = input("Introduce la nueva fecha (dd/mm/yyyy): ")
-                transaccion_a_actualizar.fecha = nueva_fecha
+                transaccion_a_actualizar.obtener_fecha(nueva_fecha)
                 print(f"Fecha actualizada a {nueva_fecha}")
 
             elif campo_seleccionado == "4":
                 nueva_hora = input("Introduce la nueva hora (hh:mm): ")
-                transaccion_a_actualizar.hora = nueva_hora
+                transaccion_a_actualizar.obtener_hora(nueva_hora)
                 print(f"Hora actualizada a {nueva_hora}")
 
             else:
@@ -132,10 +132,12 @@ class Consola:
         print("--- Historial de transacciones: ---")
         
         try:
-            transacciones = self.controlador.aplicacion.usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
+            usuario_logueado = self.controlador.aplicacion.obtener_usuario_logueado()
+            transacciones = usuario_logueado.visualizar_transacciones(fecha_inicial, fecha_final)
+            
             if transacciones:
                 for transaccion in transacciones:
-                    print(f"{transaccion.fecha} - {transaccion.categoria}: ${transaccion.cantidad_dinero}")
+                    print(f"{transaccion.obtener_fecha()} - {transaccion.obtener_categoria()}: ${transaccion.obtener_cantidad_dinero()}")
             else:
                 print("No hay transacciones en ese rango de fechas.")
         except Exception as e:
@@ -145,12 +147,14 @@ class Consola:
         if not self.controlador.aplicacion.validar_usuario_logueado():
             print("No has iniciado sesión.")
             return
-        
+    
         print("La nueva contraseña debe contener al menos un número, una letra mayúscula y una letra especial.")
         nueva_contrasena = input("Introduce la nueva contraseña: ")
+        
         try:
-            self.controlador.aplicacion.usuario_logueado.validar_contrasena(nueva_contrasena)
-            self.controlador.aplicacion.usuario_logueado.contrasena = nueva_contrasena
+            usuario_logueado = self.controlador.aplicacion.obtener_usuario_logueado()
+            usuario_logueado.validar_contrasena(nueva_contrasena)
+            usuario_logueado.cambiar_contrasena(nueva_contrasena)
             print("Contraseña cambiada exitosamente.")
         except Exception as e:
             print(f"Error: {str(e)}")

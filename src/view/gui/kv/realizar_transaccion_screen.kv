@@ -17,22 +17,28 @@
     BoxLayout:
         orientation: "vertical"
         spacing: 2
-        padding: [300, 100, 300, 100]
+        padding: [300, 150, 300, 150]
         Label:
             text: "Cantidad de dinero: "
         TextInput:
             id: cantidad_dinero_input
             multiline: False
+            on_text_validate: categoria_input.focus = True
+            
         Label:
             text: "Categoria: "
         TextInput:
             id: categoria_input    
             multiline: False
+            on_text_validate: fecha_input.focus = True
+
         Label:
             text: "Fecha (dd/mm/yyyy): "
         TextInput:
             id: fecha_input    
             multiline: False
+            on_text_validate: hora_input.focus = True
+
         Label:
             text: "Hora: "
         TextInput:
