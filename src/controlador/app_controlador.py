@@ -1,8 +1,11 @@
 from src.model.aplicacion import Aplicacion
+from src.model.usuario_db import UsuarioDB
+from src.model.usuario import Usuario
 
 class AppControlador:
     def __init__(self):
-        self.aplicacion = Aplicacion()
+        #self.aplicacion = Aplicacion(Usuario())
+        self.aplicacion = Aplicacion(UsuarioDB())
 
     def crear_cuenta(self, usuario):
         return self.aplicacion.crear_cuenta(usuario)
