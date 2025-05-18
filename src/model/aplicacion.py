@@ -1,4 +1,5 @@
 from src.model.usuario import Usuario
+from src.model.i_usuario import IUsuario
 from src.model.exception import (ErrorInicioSesionUsuarioNoExistente, ErrorInicioSesionContrasenaIncorrecta, ErrorInicioSesionActivo, ErrorUsuarioExistente,
                                  ErrorContrasenaIgual, ErrorIniciarSesionSinNombre, ErrorMuchosIntentosFallidos, ErrorSistemaCaido, ErrorContrasenaIntentosFallidos,
                                  ErrorTransaccionSinLoguearse, ErrorVisualizarSinLoguearse)
@@ -10,7 +11,7 @@ class Aplicacion:
     Maximos_intentos = 3
     Tiempo_de_bloqueo = 300 
 
-    def __init__(self):
+    def __init__(self, usuario: IUsuario):
         """
         Inicializa una instancia de Aplicacion.
         """
@@ -18,6 +19,52 @@ class Aplicacion:
         self.__intentos_fallidos = {}
         self.__tiempos_de_bloqueo = {}
         self.__usuario_logueado: Usuario = None
+        self.usuarios_db: IUsuario = usuario
+
+        self.cargar_usuarios_db()
+
+    def cargar_usuarios_db(self):
+        usuarios_db = self.usuarios_db.obtener_usuarios()
+
+        for usuario_db in usuarios_db:
+            print(f"Usuario DB Object: {usuario_db}")  # Imprimir el objeto usuario_db_object
+            print(f"Usuario DB Object Transacciones: {usuario_db.transacciones}")
+            usuario = Usuario(
+                nombre = usuario_db.nombre,
+                tipo_documento = usuario_db.tipo_documento,
+                numero_de_documento = usuario_db.numero_documento,
+                contrasena = usuario_db.contrasena,
+                correo = usuario_db.correo,
+                fecha_nacimiento = usuario_db.fecha_nacimiento
+            )
+            usuario.obtener_transacciones = [
+                {
+                   'id': transaccion.id,
+                   'cantidad_dinero': transaccion.cantidad_dinero,
+                   'categoria': transaccion.categoria,
+                   'fecha': transaccion.fecha, 
+                }   
+                for transaccion in usuario_db.transacciones
+            ]
+            self.__usuarios.append(usuario)
+
+
+    def obtener_transacciones_usuario(self, nombre_usuario: str):
+        """
+        Obtiene las transacciones de un usuario específico.
+
+        Args:
+            nombre_usuario (str): El nombre del usuario del que se quieren obtener las transacciones.
+
+        Returns:
+            list: Una lista de diccionarios, donde cada diccionario representa una transacción.
+                  Retorna una lista vacía si el usuario no se encuentra o no tiene transacciones.
+        """
+        for usuario in self.__usuarios:
+            if usuario.obtener_nombre() == nombre_usuario:
+                return usuario.transacciones
+        return []
+
 
 
     def obtener_usuarios(self):

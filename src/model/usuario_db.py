@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, joinedload
 from src.model.db import Usuarios, Transacciones
 from src.model.i_usuario import IUsuario
 
@@ -19,8 +19,7 @@ class UsuarioDB(IUsuario):
         session = sessionmaker(bind=engine)
         self.data_base_session = session()
 
-    def obtener_usuarios(self, transacciones):
-        usuario_seleccionado = self.data_base_session.query(Usuarios).filter(
-            Usuarios.transacciones == transacciones).all()
-
+    def obtener_usuarios(self):
+        usuario_seleccionado = self.data_base_session.query(Usuarios).options(joinedload(Usuarios.transacciones)).all()
+    
         return usuario_seleccionado

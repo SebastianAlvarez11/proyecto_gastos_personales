@@ -4,7 +4,7 @@ from src.model.usuario import Usuario
 
 class AppControlador:
     def __init__(self):
-        #self.aplicacion = Aplicacion(Usuario())
+        #self.aplicacion = Aplicacion(Usuario)
         self.aplicacion = Aplicacion(UsuarioDB())
 
     def crear_cuenta(self, usuario):

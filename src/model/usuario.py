@@ -5,6 +5,7 @@ import pandas as pd
 import string
 from datetime import datetime, timedelta
 from src.model.transacciones import Transacciones
+from src.model.i_usuario import IUsuario
 from src.model.exception import (ErrorTipoDocConNumeros, ErrorTipoDocConEspeciales, ErrorContrasenaCorta, ErrorContrasenaVacia,
                                  ErrorTransaccionNoExistente, ErrorTransaccionSinCambios, ErrorVisualizarFechaInicialPosterior,
                                  ErrorVisualizarFechasFormato, ErrorTransaccionCantidadCero, ErrorCrearTransaccionSinDatos, ErrorFechaNoValida,
@@ -12,7 +13,7 @@ from src.model.exception import (ErrorTipoDocConNumeros, ErrorTipoDocConEspecial
 """
 El módulo se encarga de el usuario.
 """
-class Usuario:
+class Usuario(IUsuario):
     """
     Representa al Usuario.
     """

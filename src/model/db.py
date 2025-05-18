@@ -16,7 +16,7 @@ class Usuarios(Base):
     correo = Column(Text)
     fecha_nacimiento = Column(DateTime)
     
-    transacciones = relationship('Transacciones', backref='usuarios')
+    transacciones = relationship('Transacciones', back_populates='usuarios')
 
 
 class Transacciones(Base):
@@ -28,4 +28,4 @@ class Transacciones(Base):
     fecha = Column(DateTime)
     id_usuario = Column(Integer, ForeignKey('usuarios.id'))
 
-    usuarios = relationship('Usuarios', backref='transacciones')
+    usuarios = relationship('Usuarios', back_populates='transacciones')
