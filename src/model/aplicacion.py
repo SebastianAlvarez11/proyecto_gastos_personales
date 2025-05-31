@@ -21,9 +21,9 @@ class Aplicacion:
         self.__usuario_logueado: Usuario = None
         self.usuarios_db: IUsuario = usuario
 
-        self.cargar_usuarios_db()
+       # self.cargar_usuarios_db()
 
-    def cargar_usuarios_db(self):
+    """def cargar_usuarios_db(self):
         usuarios_db = self.usuarios_db.obtener_usuarios()
 
         for usuario_db in usuarios_db:
@@ -46,7 +46,7 @@ class Aplicacion:
                 }   
                 for transaccion in usuario_db.transacciones
             ]
-            self.__usuarios.append(usuario)
+            self.__usuarios.append(usuario)"""
 
 
     def obtener_transacciones_usuario(self, nombre_usuario: str):

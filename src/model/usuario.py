@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import string
+import io
 from datetime import datetime, timedelta
 from src.model.transacciones import Transacciones
 from src.model.i_usuario import IUsuario
@@ -218,6 +219,8 @@ class Usuario(IUsuario):
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
+
+        
 
     def validar_realizar_transaccion_cantidad_cero(self, transaccion):
         """
